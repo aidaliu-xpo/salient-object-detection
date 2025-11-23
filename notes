@@ -1,1 +1,17 @@
 parameters in a neural network are any numbers the model learn during training, like weights and biases
+
+1.Preprocessing (resize_images.py)
+*Resize raw images & masks once and save them
+Use it before training
+We use it to make data small, clean, and consistent for the model
+
+2. Debug Data (debug_data.py)
+Quickly check ONE image + mask to verify resizing, mask binariztion, and correctness
+Use it before building the model
+
+3. Dataloader (data_loader.py)
+Load the seized dataset, convert to tensors, normalize, binarisze mask, and return batches
+Use it during every training step
+Role:Actual ML pipeline input
+
+pipeline -- the sequence of steps your data goes through, form raw images -> to model training -> to final predicitons
