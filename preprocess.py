@@ -72,14 +72,14 @@ if __name__ == '__main__':
     print('Resizing images...')
     resize_image(
         input_folder='data/ECSSD/images',
-        output_folder='data/ECSSD/resized_images_128',
-        target_size=128
+        output_folder='data/ECSSD/resized_images_224',
+        target_size=224
     )
 
     print("\nResizing ground truth masks")
 
     resize_mask(
         input_folder='data/ECSSD/ground_truth_mask',
-        output_folder='data/ECSSD/resized_masks_128',
-        target_size=128
+        output_folder='data/ECSSD/resized_masks_224',
+        target_size=224
     )
