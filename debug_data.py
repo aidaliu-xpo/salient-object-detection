@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 
 #Picking an image and it's mask
-resized_image_path = "data/ECSSD/resized_images_224/0003.jpg"
-resized_mask_path = "data/ECSSD/resized_masks_224/0003.png"
+resized_image_path = "data/DUTS/resized_images_224/ILSVRC2012_test_00000003.jpg"
+resized_mask_path = "data/DUTS/resized_masks_224/ILSVRC2012_test_00000003.png"
 
 #Loading the image
 img = Image.open(resized_image_path).convert('RGB')

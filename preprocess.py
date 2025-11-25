@@ -71,15 +71,15 @@ def resize_mask(input_folder, output_folder, target_size):
 if __name__ == '__main__':
     print('Resizing images...')
     resize_image(
-        input_folder='data/ECSSD/images',
-        output_folder='data/ECSSD/resized_images_224',
+        input_folder='data/DUTS/images',
+        output_folder='data/DUTS/resized_images_224',
         target_size=224
     )
 
     print("\nResizing ground truth masks")
 
     resize_mask(
-        input_folder='data/ECSSD/ground_truth_mask',
-        output_folder='data/ECSSD/resized_masks_224',
+        input_folder='data/DUTS/masks',
+        output_folder='data/DUTS/resized_masks_224',
         target_size=224
     )
