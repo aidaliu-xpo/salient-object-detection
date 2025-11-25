@@ -15,3 +15,15 @@ Use it during every training step
 Role:Actual ML pipeline input
 
 pipeline -- the sequence of steps your data goes through, form raw images -> to model training -> to final predicitons
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+#ConvBlock
+
+This block does one thing, apply a 3x3 convolution + ReLU.
+
+
+
+
+

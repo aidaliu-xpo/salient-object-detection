@@ -48,17 +48,14 @@ class SaliencyDataset(Dataset):
         image_np = image_np.astype("float32") / 255.0
         mask_np = (mask_np > 128).astype(np.uint8)
 
-
-        if self.transform is not None:
-            image_np, mask_np = self.transform(image_np, mask_np)
-
-
         #add channel to mask -> (1, H, W) -- needed because pytorch expects a channel dimension
         mask_np = np.expand_dims(mask_np, axis=0)
 
         #reorder image from HWC -> CHW
         image_np = np.transpose(image_np, (2, 0, 1))
 
+        if self.transform is not None:
+            image_np, mask_np = self.transform(image_np, mask_np)
 
                 #convert to torch tensors
         image_tensor = torch.tensor(image_np, dtype=torch.float32)
