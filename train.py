@@ -100,7 +100,7 @@ optimizer,
     verbose=True
 )
 
-num_epochs = 50
+num_epochs = 70
 best_val_loss = float('inf')
 
 #Train and Validation

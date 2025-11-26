@@ -1,13 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.nn.functional import dropout
 
 
 # this is the actual convolution layer
 class ConvBlock(nn.Module):
 
-    def __init__(self, in_channels, out_channels):
+    def __init__(self, in_channels, out_channels, dropout: float = 0.0):
         super().__init__()
 
         #padding adds fake pixels at the border of the image, so the kernel has room to slide even on the edges
@@ -15,7 +14,7 @@ class ConvBlock(nn.Module):
         #out channels -- how many feature maps go out
         self.conv1 = nn.Conv2d(in_channels, out_channels,
                               kernel_size=3, padding=1)
-        self.conv2 = nn.Conv2d(in_channels, out_channels,
+        self.conv2 = nn.Conv2d(out_channels, out_channels,
                                kernel_size=3, padding=1)
 
 
