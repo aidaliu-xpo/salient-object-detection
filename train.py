@@ -93,14 +93,13 @@ criterion = nn.BCELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-optimizer,
+    optimizer,
     mode='min',
     factor=0.5,
     patience=4,
-    verbose=True
 )
 
-num_epochs = 70
+num_epochs = 40
 best_val_loss = float('inf')
 
 #Train and Validation
