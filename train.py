@@ -76,9 +76,9 @@ test_dataset = Subset(eval_dataset_full, test_ids)
 
 
 #Dataloaders
-train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=8, shuffle=False)
-test_loader = DataLoader(test_dataset, batch_size=8, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
 
 #Model + Optimizer
@@ -90,7 +90,7 @@ model = SaliencyNet().to(device)
 #predictions are sigmoid outputs, so we use Binary Cross-Entropy as the training loss
 criterion = nn.BCELoss()
 
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+optimizer = torch.optim.Adam(model.parameters(), lr=3e-4, weight_decay=1e-5,)
 
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
