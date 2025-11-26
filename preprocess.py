@@ -79,7 +79,7 @@ if __name__ == '__main__':
     print("\nResizing ground truth masks")
 
     resize_mask(
-        input_folder='data/DUTS/masks',
+        input_folder='data/DUTS/ground_truth_mask',
         output_folder='data/DUTS/resized_masks_224',
         target_size=224
     )

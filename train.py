@@ -45,8 +45,8 @@ def iou_loss(preds, targets, eps=1e-6):
 
 
 #Load datasets
-images_dir = 'data/DUTS/resized_images_224'
-masks_dir = 'data/DUTS/resized_masks_224'
+images_dir = 'data/DUTS/DUTS/resized_images_224'
+masks_dir = 'data/DUTS/DUTS/resized_masks_224'
 
 #full dataset used only to get length / indices
 base_dataset = SaliencyDataset(images_dir, masks_dir, transform=None)
@@ -91,6 +91,14 @@ model = SaliencyNet().to(device)
 criterion = nn.BCELoss()
 
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+optimizer,
+    mode='min',
+    factor=0.5,
+    patience=4,
+    verbose=True
+)
 
 num_epochs = 50
 best_val_loss = float('inf')
@@ -140,6 +148,8 @@ for epoch in range(num_epochs):
 
     val_loss = val_loss / len(val_loader)
     print(f"           Validation Loss: {val_loss:.4f}")
+
+    scheduler.step(val_loss)
 
     if val_loss < best_val_loss:
         best_val_loss = val_loss

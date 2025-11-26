@@ -65,25 +65,29 @@ class SaliencyDataset(Dataset):
 
 
 class Augment:
-    def __init__(self, flip_prob = 0.5, rot_prob=0.3, brightness_prob=0.3):
+    def __init__(self, flip_prob = 0.5, rot_prob=0.3, brightness_prob=0.3,
+                 noise_prob=0.3, noise_sigma=0.03):
         self.flip_prob = flip_prob
         self.rot_prob = rot_prob
         self.brightness_prob = brightness_prob
+        self.noise_prob = noise_prob
+        self.noise_sigma = noise_sigma
 
     def __call__(self, image_np, mask_np):
         #image_np (3, H, W)
         #mask_np (1, H, W)
 
-        #Horizontal + vertical flip
+        #horizontal flip
         if random.random() < self.flip_prob:
             image_np = np.flip(image_np, axis=2).copy() #flip width
             mask_np = np.flip(mask_np, axis=2).copy()
 
+        #vertical flip
         if random.random() < self.flip_prob:
             image_np = np.flip(image_np, axis=1).copy()
             mask_np = np.flip(mask_np, axis=1).copy()
 
-        #rotations (90-degree steps)
+        #90/180/270 rotations
         if random.random() < self.rot_prob:
             k = random.choice([1, 2, 3]) #rotate 90/180/270
             image_np = np.rot90(image_np, k = k, axes=(1, 2)).copy()
@@ -94,6 +98,13 @@ class Augment:
             factor = random.uniform(0.8, 1.2)
             image_np = image_np * factor
             image_np = np.clip(image_np, 0.0, 1.0) #keep valid pixel range
+
+
+        #gaussian noise
+        if random.random() < self.noise_prob:
+            noise = np.random.normal(0.0, self.noise_sigma, size=image_np.shape).astype('float')
+            image_np = image_np + noise
+            image_np = np.clip(image_np, 0.0, 1.0)
 
         return image_np, mask_np
 

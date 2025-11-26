@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.nn.functional import dropout
 
 
 # this is the actual convolution layer
@@ -12,16 +13,26 @@ class ConvBlock(nn.Module):
         #padding adds fake pixels at the border of the image, so the kernel has room to slide even on the edges
         #in channels -- how many feature maps come in
         #out channels -- how many feature maps go out
-        self.conv = nn.Conv2d(in_channels, out_channels,
+        self.conv1 = nn.Conv2d(in_channels, out_channels,
                               kernel_size=3, padding=1)
+        self.conv2 = nn.Conv2d(in_channels, out_channels,
+                               kernel_size=3, padding=1)
+
+
+        #nn.Dropout2d is a regularization layer, it's job is to intentionally drop (zero out) entire
+        #feature maps during training to prevent overfitting
+        #when the network is training, Dropout randomly turns off some neurons so the model
+        #can't rely too heavily on specific activations. This forces it to learn more general features
+
+        self.dropout = nn.Dropout2d(p=dropout) if dropout > 0 else nn.Identity()
         #kerneli 3x3
 
     def forward(self, x):
         #apply convolution (sliding the kernel through the image to form the feature map)
-        x = self.conv(x)
-
         #keep positive values, zero out the negative ones
-        x = F.relu(x)
+        x = F.relu(self.conv1(x))
+        x = F.relu(self.conv2(x))
+        x = self.dropout(x)
         return x
 
 
@@ -56,13 +67,13 @@ class SaliencyNet(nn.Module):
         super().__init__()
 
         #Encoder
-        self.enc1 = ConvBlock(3, 16)
+        self.enc1 = ConvBlock(3, 16, dropout=0.1)
         self.pool1 = nn.MaxPool2d(2)
 
-        self.enc2 = ConvBlock(16, 32)
+        self.enc2 = ConvBlock(16, 32, dropout=0.1)
         self.pool2 = nn.MaxPool2d(2)
 
-        self.enc3 = ConvBlock(32, 64)
+        self.enc3 = ConvBlock(32, 64, dropout=0.2)
         self.pool3 = nn.MaxPool2d(2)
 
         #Decoder
