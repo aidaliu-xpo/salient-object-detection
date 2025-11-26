@@ -45,8 +45,8 @@ def iou_loss(preds, targets, eps=1e-6):
 
 
 #Load datasets
-images_dir = 'data/DUTS/DUTS/resized_images_224'
-masks_dir = 'data/DUTS/DUTS/resized_masks_224'
+images_dir = 'data/DUTS/resized_images_224'
+masks_dir = 'data/DUTS/resized_masks_224'
 
 #full dataset used only to get length / indices
 base_dataset = SaliencyDataset(images_dir, masks_dir, transform=None)
